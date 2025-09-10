@@ -1,0 +1,105 @@
+alias: Hottub Pump - Cheapest Hours Optimization
+description: >-
+  Automatically runs hottub pump during cheapest electricity rates based on
+  Zonneplan dynamic pricing
+triggers:
+  - at: "23:05:00"
+    id: plan_cheapest_hours
+    trigger: time
+  - event_type: timer.finished
+    event_data:
+      entity_id: timer.hottub_timer
+    id: hottub_timer_finished
+    trigger: event
+  - entity_id: switch.hottub_pomp
+    to: "on"
+    id: manual_pump_on
+    trigger: state
+  - trigger: template
+    value_template: |
+      {{ now().strftime('%Y-%m-%d %H:%M') == 
+         states('input_datetime.hottub_start_time')[:16] }}
+    id: scheduled_start
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: plan_cheapest_hours
+        sequence:
+          - variables:
+              timer_duration_raw: "{{ state_attr('timer.hottub_timer', 'duration') }}"
+              timer_duration_parts: "{{ timer_duration_raw.split(':') }}"
+              timer_hours_raw: "{{ timer_duration_parts[0] | int }}"
+              timer_minutes: "{{ timer_duration_parts[1] | int }}"
+              timer_hours_rounded: |
+                {% if timer_minutes > 0 %}
+                  {{ timer_hours_raw + 1 }}
+                {% else %}
+                  {{ timer_hours_raw }}
+                {% endif %}
+              forecast_data: >-
+                {{ state_attr('sensor.zonneplan_current_electricity_tariff',
+                'forecast') }}
+              tomorrow_date_str: "{{ (now() + timedelta(days=1)).strftime('%Y-%m-%d') }}"
+              cheapest_start_time: >
+                {% set tomorrow_date = (now() +
+                timedelta(days=1)).strftime('%Y-%m-%d') %} {% set ns =
+                namespace(min_cost=999999999999, best_time='') %} {% for item in
+                forecast_data %}
+                  {% if item.datetime.startswith(tomorrow_date) %}
+                    {% set current_hour = item.datetime[11:13] | int %}
+                    {% if current_hour < 23 %}
+                      {% for next_item in forecast_data %}
+                        {% if next_item.datetime.startswith(tomorrow_date) and (next_item.datetime[11:13] | int) == current_hour + 1 %}
+                          {% set total_cost = item.electricity_price + next_item.electricity_price %}
+                          {% if total_cost < ns.min_cost %}
+                            {% set ns.min_cost = total_cost %}
+                            {% set ns.best_time = item.datetime %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %} {{ ns.best_time if ns.best_time else (tomorrow_date
+                + 'T19:00:00.000000Z') }}
+              start_datetime: >-
+                {{ (cheapest_start_time | as_datetime |
+                as_local).strftime('%Y-%m-%d %H:%M:%S') }}
+          - action: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.hottub_start_time
+            data:
+              datetime: "{{ start_datetime }}"
+          - action: system_log.write
+            data:
+              message: >
+                Hottub scheduled for {{ start_datetime }}  ({{
+                timer_hours_rounded }} hours during cheapest rates)
+              level: info
+      - conditions:
+          - condition: trigger
+            id: hottub_timer_finished
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.hottub_pomp
+      - conditions:
+          - condition: trigger
+            id: manual_pump_on
+        sequence:
+          - action: timer.start
+            target:
+              entity_id: timer.hottub_timer
+      - conditions:
+          - condition: trigger
+            id: scheduled_start
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id: switch.hottub_pomp
+          - action: timer.start
+            target:
+              entity_id: timer.hottub_timer
+mode: parallel
+max: 3

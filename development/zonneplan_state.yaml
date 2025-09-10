@@ -1,0 +1,420 @@
+state_class: measurement
+forecast:
+  - electricity_price: 782493
+    electricity_price_excl_tax: -446140
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T11:00:00.000000Z"
+    sustainability_score: 2450
+  - electricity_price: 661493
+    electricity_price_excl_tax: -567140
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T12:00:00.000000Z"
+    sustainability_score: 2481
+  - electricity_price: 1150333
+    electricity_price_excl_tax: -78300
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T13:00:00.000000Z"
+    sustainability_score: 2354
+  - electricity_price: 1398867
+    electricity_price_excl_tax: 170233
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T14:00:00.000000Z"
+    sustainability_score: 2085
+  - electricity_price: 1464933
+    electricity_price_excl_tax: 236299
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T15:00:00.000000Z"
+    sustainability_score: 1669
+  - electricity_price: 2532758
+    electricity_price_excl_tax: 1304124
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T16:00:00.000000Z"
+    sustainability_score: 1233
+  - electricity_price: 2736764
+    electricity_price_excl_tax: 1508130
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T17:00:00.000000Z"
+    sustainability_score: 929
+  - electricity_price: 2612133
+    electricity_price_excl_tax: 1383499
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T18:00:00.000000Z"
+    sustainability_score: 622
+  - electricity_price: 2485688
+    electricity_price_excl_tax: 1257054
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T19:00:00.000000Z"
+    sustainability_score: 450
+  - electricity_price: 2469475
+    electricity_price_excl_tax: 1240841
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T20:00:00.000000Z"
+    sustainability_score: 397
+  - electricity_price: 2474920
+    electricity_price_excl_tax: 1246286
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T21:00:00.000000Z"
+    sustainability_score: 360
+  - electricity_price: 2370981
+    electricity_price_excl_tax: 1142347
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T22:00:00.000000Z"
+    sustainability_score: 350
+  - electricity_price: 2424705
+    electricity_price_excl_tax: 1196071
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-07T23:00:00.000000Z"
+    sustainability_score: 334
+  - electricity_price: 2479881
+    electricity_price_excl_tax: 1251247
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T00:00:00.000000Z"
+    sustainability_score: 318
+  - electricity_price: 2517633
+    electricity_price_excl_tax: 1288999
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T01:00:00.000000Z"
+    sustainability_score: 292
+  - electricity_price: 2445033
+    electricity_price_excl_tax: 1216399
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T02:00:00.000000Z"
+    sustainability_score: 211
+  - electricity_price: 2513640
+    electricity_price_excl_tax: 1285006
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T03:00:00.000000Z"
+    sustainability_score: 183
+  - electricity_price: 2734344
+    electricity_price_excl_tax: 1505710
+    gas_price: 11522906
+    gas_price_excl_tax: 4527170
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T04:00:00.000000Z"
+    sustainability_score: 164
+  - electricity_price: 3034182
+    electricity_price_excl_tax: 1805548
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T05:00:00.000000Z"
+    sustainability_score: 154
+  - electricity_price: 2937140
+    electricity_price_excl_tax: 1708506
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T06:00:00.000000Z"
+    sustainability_score: 171
+  - electricity_price: 2661018
+    electricity_price_excl_tax: 1432384
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T07:00:00.000000Z"
+    sustainability_score: 302
+  - electricity_price: 2467176
+    electricity_price_excl_tax: 1238542
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T08:00:00.000000Z"
+    sustainability_score: 395
+  - electricity_price: 2330204
+    electricity_price_excl_tax: 1101570
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T09:00:00.000000Z"
+    sustainability_score: 614
+  - electricity_price: 2198435
+    electricity_price_excl_tax: 969801
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T10:00:00.000000Z"
+    sustainability_score: 904
+  - electricity_price: 2130675
+    electricity_price_excl_tax: 902041
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T11:00:00.000000Z"
+    sustainability_score: 1159
+  - electricity_price: 2222514
+    electricity_price_excl_tax: 993880
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T12:00:00.000000Z"
+    sustainability_score: 1341
+  - electricity_price: 2301769
+    electricity_price_excl_tax: 1073135
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T13:00:00.000000Z"
+    sustainability_score: 1564
+  - electricity_price: 2547883
+    electricity_price_excl_tax: 1319249
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T14:00:00.000000Z"
+    sustainability_score: 1447
+  - electricity_price: 2903139
+    electricity_price_excl_tax: 1674505
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T15:00:00.000000Z"
+    sustainability_score: 1110
+  - electricity_price: 3690848
+    electricity_price_excl_tax: 2462214
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T16:00:00.000000Z"
+    sustainability_score: 691
+  - electricity_price: 6065716
+    electricity_price_excl_tax: 4837082
+    tariff_group: high
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T17:00:00.000000Z"
+    sustainability_score: 367
+  - electricity_price: 4928195
+    electricity_price_excl_tax: 3699561
+    tariff_group: high
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T18:00:00.000000Z"
+    sustainability_score: 132
+  - electricity_price: 3267833
+    electricity_price_excl_tax: 2039199
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T19:00:00.000000Z"
+    sustainability_score: 44
+  - electricity_price: 2902413
+    electricity_price_excl_tax: 1673779
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T20:00:00.000000Z"
+    sustainability_score: 37
+  - electricity_price: 2767135
+    electricity_price_excl_tax: 1538501
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T21:00:00.000000Z"
+    sustainability_score: 30
+  - electricity_price: 2749832
+    electricity_price_excl_tax: 1521198
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T22:00:00.000000Z"
+    sustainability_score: 23
+  - electricity_price: 2726237
+    electricity_price_excl_tax: 1497603
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-08T23:00:00.000000Z"
+    sustainability_score: 17
+  - electricity_price: 2703126
+    electricity_price_excl_tax: 1474492
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T00:00:00.000000Z"
+    sustainability_score: 16
+  - electricity_price: 2685218
+    electricity_price_excl_tax: 1456584
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T01:00:00.000000Z"
+    sustainability_score: 17
+  - electricity_price: 2701311
+    electricity_price_excl_tax: 1472677
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T02:00:00.000000Z"
+    sustainability_score: 16
+  - electricity_price: 2789520
+    electricity_price_excl_tax: 1560886
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T03:00:00.000000Z"
+    sustainability_score: 17
+  - electricity_price: 3447034
+    electricity_price_excl_tax: 2218400
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T04:00:00.000000Z"
+    sustainability_score: 19
+  - electricity_price: 4772226
+    electricity_price_excl_tax: 3543592
+    tariff_group: high
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T05:00:00.000000Z"
+    sustainability_score: 18
+  - electricity_price: 3812091
+    electricity_price_excl_tax: 2583457
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T06:00:00.000000Z"
+    sustainability_score: 29
+  - electricity_price: 3000544
+    electricity_price_excl_tax: 1771910
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T07:00:00.000000Z"
+    sustainability_score: 101
+  - electricity_price: 2620725
+    electricity_price_excl_tax: 1392091
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T08:00:00.000000Z"
+    sustainability_score: 197
+  - electricity_price: 2517512
+    electricity_price_excl_tax: 1288878
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T09:00:00.000000Z"
+    sustainability_score: 364
+  - electricity_price: 2381871
+    electricity_price_excl_tax: 1153237
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T10:00:00.000000Z"
+    sustainability_score: 531
+  - electricity_price: 2357066
+    electricity_price_excl_tax: 1128432
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T11:00:00.000000Z"
+    sustainability_score: 636
+  - electricity_price: 2357308
+    electricity_price_excl_tax: 1128674
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T12:00:00.000000Z"
+    sustainability_score: 735
+  - electricity_price: 2427851
+    electricity_price_excl_tax: 1199217
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T13:00:00.000000Z"
+    sustainability_score: 808
+  - electricity_price: 2540502
+    electricity_price_excl_tax: 1311868
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T14:00:00.000000Z"
+    sustainability_score: 755
+  - electricity_price: 2865266
+    electricity_price_excl_tax: 1636632
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T15:00:00.000000Z"
+    sustainability_score: 639
+  - electricity_price: 3608568
+    electricity_price_excl_tax: 2379934
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T16:00:00.000000Z"
+    sustainability_score: 428
+  - electricity_price: 5870180
+    electricity_price_excl_tax: 4641546
+    tariff_group: high
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T17:00:00.000000Z"
+    sustainability_score: 252
+  - electricity_price: 4000851
+    electricity_price_excl_tax: 2772217
+    tariff_group: normal
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T18:00:00.000000Z"
+    sustainability_score: 70
+  - electricity_price: 3011918
+    electricity_price_excl_tax: 1783284
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T19:00:00.000000Z"
+    sustainability_score: 16
+  - electricity_price: 2804524
+    electricity_price_excl_tax: 1575890
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T20:00:00.000000Z"
+    sustainability_score: 18
+  - electricity_price: 2711233
+    electricity_price_excl_tax: 1482599
+    tariff_group: low
+    solar_percentage: 0
+    solar_yield: 0
+    datetime: "2025-09-09T21:00:00.000000Z"
+    sustainability_score: 28
+unit_of_measurement: €/kWh
+icon: mdi:cash
+friendly_name: Zonneplan Current electricity tariff
