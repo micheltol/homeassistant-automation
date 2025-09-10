@@ -1,0 +1,25 @@
+# Claude Code Settings
+.claude/
+.claude_history
+.claude.json
+.claude_session
+
+# General development files
+.vscode/
+.idea/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Home Assistant specific
+secrets.yaml
+known_devices.yaml
+*.db
+*.db-shm
+*.db-wal
+
+# Temporary files
+*.bak
+*.swp
+*~
