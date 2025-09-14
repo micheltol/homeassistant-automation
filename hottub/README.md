@@ -22,10 +22,12 @@ Create these helpers in Settings → Devices & Services → Helpers:
 1. **Timer**: `timer.hottub_timer`
    - Name: "Hottub Timer"
    - Duration: Set your desired pump runtime (e.g., 02:00:00 for 2 hours)
+   - **Restore state**: **OFF** (unchecked) - Allows fresh cost calculations after Home Assistant restarts
 
 2. **Input Datetime**: `input_datetime.hottub_start_time`
    - Name: "Hottub Start Time"
    - Enable both Date and Time
+   - **Restore state**: **ON** (checked) - Preserves scheduled start times after restarts
 
 ### Required Entities
 Verify these entities exist:

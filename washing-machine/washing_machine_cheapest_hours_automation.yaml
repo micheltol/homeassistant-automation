@@ -1,12 +1,16 @@
 alias: Washing Machine - Cheapest Hours Optimization
 description: >-
   Automatically delays washing machine to run during cheapest 3-hour block within next 12 hours
-  based on Zonneplan dynamic pricing
+  based on Zonneplan dynamic pricing. Triggered by MQTT button press.
 triggers:
-  - entity_id: sensor.wasmachine_power
-    above: 20
-    id: washing_cycle_started
-    trigger: numeric_state
+  - trigger: mqtt
+    topic: zigbee2mqtt/wasmachine switch/action
+    payload: single
+    id: button_pressed_single
+  - trigger: mqtt
+    topic: zigbee2mqtt/wasmachine switch/action
+    payload: double
+    id: button_pressed_double
   - event_type: timer.finished
     event_data:
       entity_id: timer.washing_machine_delay
@@ -16,84 +20,83 @@ triggers:
     to: "on"
     id: manual_override
     trigger: state
-  - entity_id: sensor.wasmachine_power
-    below: 6
-    for:
-      minutes: 2
-    id: washing_cycle_finished
-    trigger: numeric_state
-  - trigger: template
-    value_template: |
-      {{ now().strftime('%Y-%m-%d %H:%M') == 
-         states('input_datetime.washing_machine_start_time')[:16] }}
-    id: scheduled_start
 conditions: []
 actions:
   - choose:
       - conditions:
-          - condition: trigger
-            id: washing_cycle_started
-          - condition: numeric_state
-            entity_id: sensor.wasmachine_power
-            above: 20
+          - condition: or
+            conditions:
+              - condition: trigger
+                id: button_pressed_single
+              - condition: trigger
+                id: button_pressed_double
         sequence:
-          - action: switch.turn_off
-            target:
-              entity_id: switch.wasmachine
-          - variables:
-              forecast_data: >-
-                {{ state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') }}
-              current_time: "{{ now() }}"
-              search_end_time: "{{ now() + timedelta(hours=12) }}"
-              cheapest_start_time: >
-                {% set ns = namespace(min_cost=999999999999, best_time='', blocks=[]) %}
-                {% for i in range(forecast_data|length - 2) %}
-                  {% set hour1 = forecast_data[i] %}
-                  {% set hour2 = forecast_data[i+1] %}
-                  {% set hour3 = forecast_data[i+2] %}
-                  {% set block_start = hour1.datetime | as_datetime %}
-                  {% set block_end = hour3.datetime | as_datetime + timedelta(hours=1) %}
-                  {% if block_start >= current_time and block_end <= search_end_time %}
-                    {% set total_cost = hour1.electricity_price_excl_tax + hour2.electricity_price_excl_tax + hour3.electricity_price_excl_tax %}
-                    {% if total_cost < ns.min_cost %}
-                      {% set ns.min_cost = total_cost %}
-                      {% set ns.best_time = hour1.datetime %}
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-                {{ ns.best_time if ns.best_time else current_time.isoformat() + 'Z' }}
-              start_datetime: >-
-                {{ (cheapest_start_time | as_datetime | as_local).strftime('%Y-%m-%d %H:%M:%S') }}
-              delay_seconds: >-
-                {{ ((cheapest_start_time | as_datetime) - now()).total_seconds() | int }}
           - if:
-              - condition: template
-                value_template: "{{ delay_seconds <= 300 }}"
+              - condition: state
+                entity_id: timer.washing_machine_delay
+                state: active
             then:
+              - action: timer.cancel
+                target:
+                  entity_id: timer.washing_machine_delay
               - action: switch.turn_on
                 target:
                   entity_id: switch.wasmachine
               - action: system_log.write
                 data:
-                  message: "Washing machine started immediately - optimal time window within 5 minutes"
+                  message: "Timer cancelled - washing machine started immediately"
                   level: info
             else:
-              - action: input_datetime.set_datetime
+              - action: switch.turn_off
                 target:
-                  entity_id: input_datetime.washing_machine_start_time
-                data:
-                  datetime: "{{ start_datetime }}"
-              - action: timer.start
-                target:
-                  entity_id: timer.washing_machine_delay
-                data:
-                  duration: "{{ delay_seconds }}"
-              - action: system_log.write
-                data:
-                  message: >
-                    Washing machine delayed until {{ start_datetime }} for cheapest 3-hour block 
-                    (saving on electricity costs)
-                  level: info
+                  entity_id: switch.wasmachine
+              - variables:
+                  forecast_data: >-
+                    {{ state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') }}
+                  current_time: "{{ now() }}"
+                  search_end_time: "{{ now() + timedelta(hours=12) }}"
+                  cheapest_start_time: >
+                    {% set ns = namespace(min_cost=999999999999, best_time='', blocks=[]) %}
+                    {% for i in range(forecast_data|length - 2) %}
+                      {% set hour1 = forecast_data[i] %}
+                      {% set hour2 = forecast_data[i+1] %}
+                      {% set hour3 = forecast_data[i+2] %}
+                      {% set block_start = hour1.datetime | as_datetime %}
+                      {% set block_end = hour3.datetime | as_datetime + timedelta(hours=1) %}
+                      {% if block_start >= (current_time | as_datetime) and block_end <= (search_end_time | as_datetime) %}
+                        {% set total_cost = hour1.electricity_price_excl_tax + hour2.electricity_price_excl_tax + hour3.electricity_price_excl_tax %}
+                        {% if total_cost < ns.min_cost %}
+                          {% set ns.min_cost = total_cost %}
+                          {% set ns.best_time = hour1.datetime %}
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                    {{ ns.best_time if ns.best_time else current_time.isoformat() + 'Z' }}
+                  delay_seconds: >-
+                    {{ ((cheapest_start_time | as_datetime) - now()).total_seconds() | int }}
+              - if:
+                  - condition: template
+                    value_template: "{{ delay_seconds <= 300 }}"
+                then:
+                  - action: switch.turn_on
+                    target:
+                      entity_id: switch.wasmachine
+                  - action: system_log.write
+                    data:
+                      message: "Washing machine started immediately - optimal time window within 5 minutes"
+                      level: info
+                else:
+                  - action: timer.start
+                    target:
+                      entity_id: timer.washing_machine_delay
+                    data:
+                      duration: "{{ delay_seconds }}"
+                  - action: system_log.write
+                    data:
+                      message: >
+                        Washing machine delayed for {{ (delay_seconds / 3600) | round(1) }} hours for cheapest 3-hour block 
+                        (saving on electricity costs)
+                      level: info
       - conditions:
           - condition: trigger
             id: delay_timer_finished
@@ -108,8 +111,9 @@ actions:
       - conditions:
           - condition: trigger
             id: manual_override
-          - condition: template
-            value_template: "{{ is_state('timer.washing_machine_delay', 'active') }}"
+          - condition: state
+            entity_id: timer.washing_machine_delay
+            state: active
         sequence:
           - action: timer.cancel
             target:
@@ -117,24 +121,5 @@ actions:
           - action: system_log.write
             data:
               message: "Manual override - washing machine timer cancelled"
-              level: info
-      - conditions:
-          - condition: trigger
-            id: scheduled_start
-        sequence:
-          - action: switch.turn_on
-            target:
-              entity_id: switch.wasmachine
-          - action: system_log.write
-            data:
-              message: "Washing machine started at scheduled time"
-              level: info
-      - conditions:
-          - condition: trigger
-            id: washing_cycle_finished
-        sequence:
-          - action: system_log.write
-            data:
-              message: "Washing cycle completed - power consumption below 6W for 2+ minutes"
               level: info
 mode: restart

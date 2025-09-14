@@ -8,9 +8,9 @@ The project is organized into feature-specific folders:
 
 ### 📁 `washing-machine/`
 **Real-time cost optimization for washing machines**
-- Detects washing cycle start and delays execution to cheapest 3-hour window
-- Finds optimal time within next 12 hours from start
-- Power-based detection and completion monitoring
+- MQTT button trigger activates cost optimization
+- Finds optimal time within next 12 hours from trigger
+- Manual override and immediate start capabilities
 - See: [washing-machine/README.md](washing-machine/README.md)
 
 ### 📁 `hottub/`
@@ -25,7 +25,7 @@ The project is organized into feature-specific folders:
 - **Home Assistant** with admin access
 - **Zonneplan Integration** installed via HACS ([github.com/fsaris/home-assistant-zonneplan-one](https://github.com/fsaris/home-assistant-zonneplan-one))
 - **Smart switches** controlling your appliances (Zigbee2MQTT recommended)
-- **Power monitoring** for washing machine (if using washing machine automation)
+- **MQTT integration** for button functionality (if using washing machine automation)
 
 ## Quick Start
 
@@ -38,7 +38,7 @@ The project is organized into feature-specific folders:
 3. **Verify prerequisites**:
    - Zonneplan sensor: `sensor.zonneplan_current_electricity_tariff`
    - Smart switch entities for your appliances
-   - Power monitoring sensors (for washing machine)
+   - MQTT button functionality (for washing machine)
 
 ## Key Features
 
@@ -49,9 +49,10 @@ The project is organized into feature-specific folders:
 - **Template Triggers**: Precise timing execution
 
 ### Washing Machine Specific
-- **Power Detection**: Automatic cycle start/completion detection
-- **Flexible Timing**: Optimizes within 12 hours from start
+- **Button Trigger**: MQTT button press activation
+- **Flexible Timing**: Optimizes within 12 hours from trigger
 - **Immediate Fallback**: Starts immediately if optimal time is within 5 minutes
+- **Timer Override**: Button press during active timer starts immediately
 
 ### Hottub Specific
 - **Daily Planning**: Calculates next day's optimal schedule
@@ -81,7 +82,7 @@ The repository is organized into feature-specific folders for easy navigation:
 ## Getting Started
 
 1. **Choose your automation** based on your needs:
-   - **Washing Machine**: Detects when you start washing, delays to cheapest 3-hour window
+   - **Washing Machine**: Button press triggers optimization, delays to cheapest 3-hour window
    - **Hottub**: Plans daily schedule for next day's cheapest hours
 
 2. **Navigate to the feature folder** and follow the README.md for complete setup instructions
@@ -89,7 +90,7 @@ The repository is organized into feature-specific folders for easy navigation:
 3. **Prerequisites**: 
    - Home Assistant with Zonneplan integration
    - Smart switches for your appliances
-   - Power monitoring (washing machine only)
+   - MQTT integration for button functionality (washing machine only)
 
 ## Support
 
