@@ -1,0 +1,132 @@
+alias: Dishwasher - Cheapest Hours Optimization
+description: >-
+  Automatically delays dishwasher to run during cheapest 3-hour block within
+  next 12 hours based on Zonneplan dynamic pricing. Triggered by MQTT button
+  press.
+triggers:
+  - trigger: mqtt
+    topic: zigbee2mqtt/dishwasher switch/action
+    payload: single
+    id: button_pressed_single
+  - trigger: mqtt
+    topic: zigbee2mqtt/dishwasher switch/action
+    payload: double
+    id: button_pressed_double
+  - event_type: timer.finished
+    event_data:
+      entity_id: timer.dishwasher_delay
+    id: delay_timer_finished
+    trigger: event
+  - entity_id:
+      - switch.vaatwasser
+    to: "on"
+    id: manual_override
+    trigger: state
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: trigger
+                id: button_pressed_single
+              - condition: trigger
+                id: button_pressed_double
+        sequence:
+          - if:
+              - condition: state
+                entity_id: timer.dishwasher_delay
+                state: active
+            then:
+              - action: timer.cancel
+                target:
+                  entity_id: timer.dishwasher_delay
+              - action: switch.turn_on
+                target:
+                  entity_id: switch.vaatwasser
+              - action: system_log.write
+                data:
+                  message: Timer cancelled - dishwasher started immediately
+                  level: info
+            else:
+              - action: switch.turn_off
+                target:
+                  entity_id: switch.vaatwasser
+              - variables:
+                  forecast_data: >-
+                    {{ state_attr('sensor.zonneplan_current_electricity_tariff',
+                    'forecast') }}
+                  current_time: "{{ now() }}"
+                  search_end_time: "{{ now() + timedelta(hours=12) }}"
+                  cheapest_start_time: >
+                    {% set ns = namespace(min_cost=999999999999, best_time='',
+                    blocks=[]) %} {% for i in range(forecast_data|length - 2) %}
+                      {% set hour1 = forecast_data[i] %}
+                      {% set hour2 = forecast_data[i+1] %}
+                      {% set hour3 = forecast_data[i+2] %}
+                      {% set block_start = hour1.datetime | as_datetime %}
+                      {% set block_end = hour3.datetime | as_datetime + timedelta(hours=1) %}
+                      {% if block_start >= (current_time | as_datetime) and block_end <= (search_end_time | as_datetime) %}
+                        {% set total_cost = hour1.electricity_price_excl_tax + hour2.electricity_price_excl_tax + hour3.electricity_price_excl_tax %}
+                        {% if total_cost < ns.min_cost %}
+                          {% set ns.min_cost = total_cost %}
+                          {% set ns.best_time = hour1.datetime %}
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %} {{ ns.best_time if ns.best_time else
+                    current_time.isoformat() + 'Z' }}
+                  delay_seconds: >-
+                    {{ ((cheapest_start_time | as_datetime) -
+                    now()).total_seconds() | int }}
+              - if:
+                  - condition: template
+                    value_template: "{{ delay_seconds <= 300 }}"
+                then:
+                  - action: switch.turn_on
+                    target:
+                      entity_id: switch.vaatwasser
+                  - action: system_log.write
+                    data:
+                      message: >-
+                        Dishwasher started immediately - optimal time window
+                        within 5 minutes
+                      level: info
+                else:
+                  - action: timer.start
+                    target:
+                      entity_id: timer.dishwasher_delay
+                    data:
+                      duration: "{{ delay_seconds }}"
+                  - action: system_log.write
+                    data:
+                      message: >
+                        Dishwasher delayed for {{ (delay_seconds / 3600) |
+                        round(1) }} hours for cheapest 3-hour block  (saving on
+                        electricity costs)
+                      level: info
+      - conditions:
+          - condition: trigger
+            id: delay_timer_finished
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id: switch.vaatwasser
+          - action: system_log.write
+            data:
+              message: Dishwasher started at optimal time
+              level: info
+      - conditions:
+          - condition: trigger
+            id: manual_override
+          - condition: state
+            entity_id: timer.dishwasher_delay
+            state: active
+        sequence:
+          - action: timer.cancel
+            target:
+              entity_id: timer.dishwasher_delay
+          - action: system_log.write
+            data:
+              message: Manual override - Dishwasher timer cancelled
+              level: info
+mode: restart
